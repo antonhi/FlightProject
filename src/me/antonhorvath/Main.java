@@ -22,7 +22,7 @@ public class Main {
         // Get all file information ----------------------------------------------------------------------------------------
 
 
-        // Populate city linked list and destinations ----------------------------------------------------------------------------------------
+        // Populate city *linked list* and destinations ----------------------------------------------------------------------------------------
         Locations locations = new Locations();
         FileManager.populateLocations(locations, files.split(delimiter)[1]);
 

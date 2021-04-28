@@ -1,6 +1,7 @@
 package me.antonhorvath.objects;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Path {
 
@@ -19,6 +20,8 @@ public class Path {
                 this.destinations.add((Destination) o);
             }
         }
+        this.totalTime = getTime();
+        this.totalPrice = getCost();
     }
 
     public String getInfo() {
@@ -28,6 +31,28 @@ public class Path {
         }
         s += (". Time: " + (int)getTime() + " Cost: " + getCost());
         return s;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public double getTotalTime() {
+        return totalTime;
+    }
+
+    public boolean isCheaperThan(Path path) {
+        if (path.totalPrice < this.totalPrice) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isFasterThan(Path path) {
+        if (path.totalTime < this.totalTime) {
+            return false;
+        }
+        return true;
     }
 
     private double getCost() {
@@ -49,3 +74,26 @@ public class Path {
 
 
 }
+
+class PathPrice implements Comparator<Path> {
+
+    @Override
+    public int compare(Path path1, Path path2) {
+        if (path1.isCheaperThan(path2)) {
+            return -1;
+        }
+        return 1;
+    }
+}
+
+class PathTime implements Comparator<Path> {
+
+    @Override
+    public int compare(Path path1, Path path2) {
+        if (path1.isFasterThan(path2)) {
+            return -1;
+        }
+        return 1;
+    }
+}
+

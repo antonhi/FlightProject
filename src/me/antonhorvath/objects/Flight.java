@@ -1,6 +1,7 @@
 package me.antonhorvath.objects;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Stack;
 
 public class Flight {
@@ -19,6 +20,7 @@ public class Flight {
         this.cost = cost;
         paths = new ArrayList<>();
         processPaths();
+        arrangePaths();
     }
 
     public ArrayList<Path> getPaths() {
@@ -47,30 +49,49 @@ public class Flight {
     // backtracking algorithm
     private void processPaths() {
         Stack<Destination> stack = new Stack<>(); // implement a stack to keep track of which cities we are on
+        LinkedList<City> linkedList = new LinkedList<>(); // implement a linked list to keep track of cities
         Destination destination = currentCity.getDestination(); // we start at the first destination for the current city
         stack.push(destination);
+        linkedList.add(destination.getCity());
         Destination traverse = destination;
         while (traverse != null) {
-            if (traverse.getCity().equals(destinationCity) || traverse.getCity().getDestination() == null || stack.search(traverse.getCity().getDestination()) != -1) {
+            if (traverse.getCity().equals(destinationCity) || traverse.getCity().getDestination() == null || stack.search(traverse.getCity().getDestination()) != -1 || linkedList.contains(traverse.getCity().getDestination().getCity())) {
                 if (traverse.getCity().equals(destinationCity)) {
                     paths.add(new Path(currentCity, stack.toArray()));
+                }
+                else if (traverse.getCity() != currentCity && traverse.getCity().getDestination() != null && linkedList.contains(traverse.getCity().getDestination().getCity())) {
+                    stack.push(traverse.getCity().getDestination());
+                    linkedList.add(traverse.getCity().getDestination().getCity());
+                    traverse = traverse.getCity().getDestination();
                 }
                 traverse = traverse.getDestination();
                 if (!stack.empty()) {
                     stack.pop();
+                    linkedList.removeLast();
                 }
                 while (traverse == null && !stack.empty()) {
                     traverse = stack.pop().getDestination();
+                    linkedList.removeLast();
                 }
-                if (!stack.empty()) {
+                if (!stack.empty() || traverse != null) {
                     stack.push(traverse);
+                    linkedList.add(traverse.getCity());
                 }
             }
             else {
                 stack.push(traverse.getCity().getDestination());
+                linkedList.add(traverse.getCity().getDestination().getCity());
                 traverse = traverse.getCity().getDestination();
             }
         }
+    }
+
+    private void arrangePaths() {
+        if (cost) {
+            paths.sort(new PathPrice());
+            return;
+        }
+        paths.sort(new PathTime());
     }
 
 }
