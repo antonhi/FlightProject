@@ -5,13 +5,13 @@ import java.util.Comparator;
 
 public class Path {
 
-    private double totalPrice;
+    private final double totalPrice;
 
-    private double totalTime;
+    private final double totalTime;
 
-    private City currentCity;
+    private final City currentCity;
 
-    private ArrayList<Destination> destinations = new ArrayList<>();
+    private final ArrayList<Destination> destinations = new ArrayList<>();
 
     public Path(City currentCity, Object [] destinations) {
         this.currentCity = currentCity;
@@ -33,26 +33,12 @@ public class Path {
         return s;
     }
 
-    public double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public double getTotalTime() {
-        return totalTime;
-    }
-
     public boolean isCheaperThan(Path path) {
-        if (path.totalPrice < this.totalPrice) {
-            return false;
-        }
-        return true;
+        return !(path.totalPrice < this.totalPrice);
     }
 
     public boolean isFasterThan(Path path) {
-        if (path.totalTime < this.totalTime) {
-            return false;
-        }
-        return true;
+        return !(path.totalTime < this.totalTime);
     }
 
     private double getCost() {

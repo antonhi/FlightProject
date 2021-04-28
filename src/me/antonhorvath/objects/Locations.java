@@ -1,16 +1,11 @@
 package me.antonhorvath.objects;
 
-import me.antonhorvath.objects.City;
-
 public class Locations {
 
     private City city;
 
-    private int amount;
-
     public Locations() {
         city = null;
-        amount = 0;
     }
 
     public void attachCity(City city) {
@@ -24,15 +19,6 @@ public class Locations {
         else {
             this.city = city;
         }
-        amount+=1;
-    }
-
-    public City getCity() {
-        return city;
-    }
-
-    public int getAmount() {
-        return amount;
     }
 
     public City hasCity(String city) {

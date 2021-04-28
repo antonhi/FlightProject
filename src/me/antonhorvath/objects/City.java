@@ -34,10 +34,6 @@ public class City {
         this.city = city;
     }
 
-    public void setDestination(Destination destination) {
-        this.destination = destination;
-    }
-
     public void attachDestination(Destination destination) {
         Destination traverse = this.destination;
         if (traverse != null) {
@@ -65,9 +61,7 @@ public class City {
     @Override
     public boolean equals(Object o) {
         if (o instanceof City) {
-            if (((City) o).getName().equals(this.name)) {
-                return true;
-            }
+            return ((City) o).getName().equals(this.name);
         }
         return false;
     }

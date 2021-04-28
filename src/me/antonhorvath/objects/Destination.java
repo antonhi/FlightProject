@@ -2,11 +2,11 @@ package me.antonhorvath.objects;
 
 public class Destination {
 
-    private City city;
+    private final City city;
 
-    private double time;
+    private final double time;
 
-    private double price;
+    private final double price;
 
     private Destination destination;
 
